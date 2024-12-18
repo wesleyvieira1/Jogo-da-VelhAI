@@ -8,32 +8,36 @@ class JogadorIA(Jogador):
         self.matriz = tabuleiro.matriz
         self.tipo = tipo
 
+    # Verifica se a linha tem duas marcações do tipo passado e uma célula desconhecida
     def verificaLinha(self, linha, tipo):
         contagem_tipo = sum(1 for celula in self.matriz[linha] if celula == tipo)
         tem_vazio = Tabuleiro.DESCONHECIDO in self.matriz[linha]
         if contagem_tipo == 2 and tem_vazio:
-            return (linha, self.matriz[linha].index(Tabuleiro.DESCONHECIDO))  # Retorna (linha, coluna)
+            return (linha, self.matriz[linha].index(Tabuleiro.DESCONHECIDO))
         return None
 
+    # Verifica se a coluna tem duas marcações do tipo passado e uma célula desconhecida
     def verificaColuna(self, coluna: int, tipo: int):
         coluna_valores = [self.matriz[i][coluna] for i in range(3)]
         if coluna_valores.count(tipo) == 2 and coluna_valores.count(Tabuleiro.DESCONHECIDO) == 1:
-            linha = coluna_valores.index(Tabuleiro.DESCONHECIDO)  # Pega o índice da linha
-            return (linha, coluna)  # Retorna (linha, coluna)
+            linha = coluna_valores.index(Tabuleiro.DESCONHECIDO) 
+            return (linha, coluna) 
         return None
 
+    # Verifica se a diagonal principal tem duas marcações do tipo passado e uma célula desconhecida
     def verificaDiagonalPrincipal(self, tipo: int):
         diagonal = [self.matriz[i][i] for i in range(3)]
         if diagonal.count(tipo) == 2 and diagonal.count(Tabuleiro.DESCONHECIDO) == 1:
             index = diagonal.index(Tabuleiro.DESCONHECIDO)
-            return (index, index)  # Coordenadas (linha, coluna)
+            return (index, index) 
         return None
 
+    # Verifica se a diagonal secundária tem duas marcações do tipo passado e uma célula desconhecida
     def verificaDiagonalSecundaria(self, tipo: int):
         diagonal = [self.matriz[i][2 - i] for i in range(3)]
         if diagonal.count(tipo) == 2 and diagonal.count(Tabuleiro.DESCONHECIDO) == 1:
             index = diagonal.index(Tabuleiro.DESCONHECIDO)
-            return (index, 2 - index)  # Coordenadas (linha, coluna)
+            return (index, 2 - index) 
         return None
 
     # R1 - Se você ou seu oponente tiver duas marcações em sequência, marque o quadrado restante.
@@ -47,10 +51,12 @@ class JogadorIA(Jogador):
             if resultado_coluna:
                 return resultado_coluna
 
+        # Verificar diagonais
         resultado_diagonal_principal = self.verificaDiagonalPrincipal(self.tipo)
         if resultado_diagonal_principal:
             return resultado_diagonal_principal
 
+        # Verificar diagonais
         resultado_diagonal_secundaria = self.verificaDiagonalSecundaria(self.tipo)
         if resultado_diagonal_secundaria:
             return resultado_diagonal_secundaria
@@ -64,10 +70,11 @@ class JogadorIA(Jogador):
             if resultado_coluna:
                 return resultado_coluna
 
+        # Verificar diagonais
         resultado_diagonal_principal = self.verificaDiagonalPrincipal(Tabuleiro.JOGADOR_X)
         if resultado_diagonal_principal:
             return resultado_diagonal_principal
-
+        # Verificar diagonais
         resultado_diagonal_secundaria = self.verificaDiagonalSecundaria(Tabuleiro.JOGADOR_X)
         if resultado_diagonal_secundaria:
             return resultado_diagonal_secundaria

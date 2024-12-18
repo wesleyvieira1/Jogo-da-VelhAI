@@ -60,18 +60,3 @@ class JogoVelha:
             
             self.screen.desenha_tabuleiro()
             self.troca_jogador()
-    
-
-    def testa_jogada_ia(self):
-        resultado = self.tabuleiro.tem_campeao()
-
-        if resultado == Tabuleiro.DESCONHECIDO:
-            for i in range(3):
-                for j in range(3):
-                    if self.tabuleiro.matriz[i][j] == Tabuleiro.DESCONHECIDO:
-                        self.tabuleiro.matriz[i][j] = Tabuleiro.JOGADOR_0  # Simulando a IA fazendo um movimento
-                        if self.tabuleiro.tem_campeao() == Tabuleiro.JOGADOR_0:
-                            return (i, j)  # Retorna a jogada bloqueadora
-                        self.tabuleiro.matriz[i][j] = Tabuleiro.DESCONHECIDO
-        return None  # Nenhuma jogada foi bloqueada
-
